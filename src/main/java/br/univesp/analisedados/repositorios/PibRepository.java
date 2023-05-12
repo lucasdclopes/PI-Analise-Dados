@@ -16,8 +16,9 @@ public interface PibRepository extends JpaRepository<Pib, PaisAnoId> {
 	boolean existsById(PaisAnoId id);
 	public final String listaPrincipal = """ 
 			SELECT new br.univesp.analisedados.dto.responses.ListaPibDto 
-			(id.year,id.idCountry,totalGdp,totalGdpMillion,gdpVariation) 
+			(p.id.year,p.id.idCountry,p.totalGdp,p.totalGdpMillion,p.gdpVariation,p.totalGdp / t.populationEst) 
 			FROM Pib p
+			LEFT JOIN TamanhoPopulacao t ON p.id = t.id
 			WHERE 1 = 1
 			""";
 	@Query(listaPrincipal)
