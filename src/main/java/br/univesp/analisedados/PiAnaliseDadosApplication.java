@@ -1,4 +1,4 @@
-package br.univesp.pianalisedados;
+package br.univesp.analisedados;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
