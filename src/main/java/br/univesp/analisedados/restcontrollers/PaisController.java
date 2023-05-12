@@ -25,10 +25,11 @@ public class PaisController {
 	
 	@GetMapping
 	public ResponseEntity<List<ListaPaisesDto>> listar(
-			@PageableDefault(sort = "country_name", direction = Direction.DESC, page = 0, size = 10) Pageable paginacao
+			@PageableDefault(sort = "countryName", direction = Direction.ASC, page = 0, size = 10) Pageable paginacao,
+			Integer idPais
 			) throws EntidadeNaoEncontradaException{
 			
-		Page<ListaPaisesDto> pagina = paisDao.paginar(paginacao);
+		Page<ListaPaisesDto> pagina = paisDao.paginar(idPais, paginacao);
 		if (pagina.hasContent()) {
 			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
 		}

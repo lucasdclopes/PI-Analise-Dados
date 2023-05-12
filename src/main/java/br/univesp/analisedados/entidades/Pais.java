@@ -16,7 +16,7 @@ public class Pais implements Serializable {
 	  
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idCountry;
+	private Integer idCountry;
 	private String countryCode;
 	private String countryName;
 	private String subRegionName;
@@ -35,7 +35,7 @@ public class Pais implements Serializable {
 		this.incomeGroup = incomeGroup;
 	}
 
-	public Long getIdCountry() {
+	public Integer getIdCountry() {
 		return idCountry;
 	}
 

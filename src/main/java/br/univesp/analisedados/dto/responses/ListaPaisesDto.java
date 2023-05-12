@@ -1,6 +1,6 @@
 package br.univesp.analisedados.dto.responses;
 
 public record ListaPaisesDto(
-		 Long idCountry,String countryCode,String countryName,String subRegionName,String incomeGroup
+		 Integer idPais,String codigoPais,String nomePais,String nomeSubRegiao,String grupoRenda
 		 ) {
 }

@@ -10,12 +10,14 @@ import br.univesp.analisedados.entidades.Pais;
 
 public interface PaisRepository extends JpaRepository<Pais, Integer> {
 
-	boolean existsByCountryName(String countryName);
+	boolean existsByCountryNameAndCountryCode(String countryName, String countryCode);
 	
 	@Query(""" 
 			SELECT new br.univesp.analisedados.dto.responses.ListaPaisesDto 
 			(idCountry,countryCode,countryName,subRegionName,incomeGroup) 
 			FROM Pais p
+			WHERE
+			 (:idPais is null or p.idCountry = :idPais)
 			""")
-	Page<ListaPaisesDto> paginar(Pageable paginacao);
+	Page<ListaPaisesDto> paginar(Integer idPais, Pageable paginacao);
 }

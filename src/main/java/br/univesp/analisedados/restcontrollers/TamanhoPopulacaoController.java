@@ -10,28 +10,25 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.univesp.analisedados.dto.responses.ListaPibDto;
+import br.univesp.analisedados.dto.responses.ListaTamanhoPopulacaoDto;
 import br.univesp.analisedados.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.analisedados.helpers.ControllerHelper;
-import br.univesp.analisedados.repositorios.PibRepository;
+import br.univesp.analisedados.repositorios.TamanhoPopulacaoRepository;
 
 @RestController
-@RequestMapping("/api/pib")
-public class PibController {
+@RequestMapping("/api/populacao")
+public class TamanhoPopulacaoController {
 	
-	@Autowired private PibRepository pibDao;
+	@Autowired private TamanhoPopulacaoRepository sizePopDao;
 	
 	@GetMapping
-	public ResponseEntity<List<ListaPibDto>> listar(
-			@PageableDefault(sort = {"id.idCountry","id.year"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao,
-			@RequestParam(required = false) List<Integer> idPais
+	public ResponseEntity<List<ListaTamanhoPopulacaoDto>> listar(
+			@PageableDefault(sort = {"id.idCountry","id.year"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao
 			) throws EntidadeNaoEncontradaException{
 			
-		//Page<ListaPibDto> pagina = pibDao.paginar(paginacao);
-		Page<ListaPibDto> pagina = idPais == null? pibDao.paginar(paginacao): pibDao.paginar(idPais,paginacao);
+		Page<ListaTamanhoPopulacaoDto> pagina = sizePopDao.paginar(paginacao);
 		if (pagina.hasContent()) {
 			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
 		}
