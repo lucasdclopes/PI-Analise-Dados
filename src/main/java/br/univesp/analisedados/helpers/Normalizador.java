@@ -1,26 +1,29 @@
 package br.univesp.analisedados.helpers;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.function.ToDoubleFunction;
+import java.util.function.Function;
 
 import br.univesp.analisedados.dto.TendenciaCentralDto;
 import br.univesp.analisedados.dto.responses.PibCo2DadosDto;
 
 public class Normalizador {
 
-	private Double normalizar(Double ponto, Double min, Double max) {
-		return ( ponto - min ) / (max - min);
+	private BigDecimal normalizar(BigDecimal ponto, BigDecimal min, BigDecimal max) {
+		return ( ponto.subtract(min) ).divide((max.subtract(min)),4,RoundingMode.HALF_UP);
 	}
 	public List<PibCo2DadosDto> normalizarPibCo2(List<PibCo2DadosDto> entrada) {
-		Double minCo2 = getMinPibCo2(entrada,e -> e.co2().min().doubleValue());
-		Double maxCo2 = getMaxPibCo2(entrada,e -> e.co2().max().doubleValue());
+		BigDecimal minCo2 = getMinPibCo2(entrada,e -> e.co2().tendenciaCentral());
+		BigDecimal maxCo2 = getMaxPibCo2(entrada,e -> e.co2().tendenciaCentral());
 		
-		Double minPib = getMinPibCo2(entrada,e -> e.pib().min().doubleValue());
-		Double maxPib = getMaxPibCo2(entrada,e -> e.pib().max().doubleValue());
+		BigDecimal minPib = getMinPibCo2(entrada,e -> e.pib().tendenciaCentral());
+		BigDecimal maxPib = getMaxPibCo2(entrada,e -> e.pib().tendenciaCentral());
 		
-		Double minPibPerCap = getMinPibCo2(entrada,e -> e.pibPerCap().min().doubleValue());
-		Double maxPibPerCap = getMaxPibCo2(entrada,e -> e.pibPerCap().max().doubleValue());
+		BigDecimal minPibPerCap = getMinPibCo2(entrada,e -> e.pibPerCap().tendenciaCentral());
+		BigDecimal maxPibPerCap = getMaxPibCo2(entrada,e -> e.pibPerCap().tendenciaCentral());
 		
 		List<PibCo2DadosDto> dadosNormalizados = new ArrayList<>();
 		entrada.forEach(e -> {
@@ -39,10 +42,17 @@ public class Normalizador {
 		return dadosNormalizados;
 
 	}
-	public Double getMinPibCo2(List<PibCo2DadosDto> entrada,ToDoubleFunction<? super PibCo2DadosDto> mapper) {
-		return entrada.stream().mapToDouble(mapper).min().getAsDouble();
+	
+	public BigDecimal getMinPibCo2(List<PibCo2DadosDto> entrada,Function<? super PibCo2DadosDto, ? extends BigDecimal> mapper ) {
+		return entrada.stream().map(mapper).min(Comparator.naturalOrder()).get();
 	}
-	public Double getMaxPibCo2(List<PibCo2DadosDto> entrada,ToDoubleFunction<? super PibCo2DadosDto> mapper) {
-		return entrada.stream().mapToDouble(mapper).max().getAsDouble();
+	public BigDecimal getMaxPibCo2(List<PibCo2DadosDto> entrada,Function<? super PibCo2DadosDto, ? extends BigDecimal> mapper ) {
+		return entrada.stream().map(mapper).max(Comparator.naturalOrder()).get();
 	}
+	//public Double getMinPibCo2(List<PibCo2DadosDto> entrada,ToDoubleFunction<? super PibCo2DadosDto> mapper) {
+		//return entrada.stream().mapToDouble(mapper).min().getAsDouble();
+	//}
+	//public Double getMaxPibCo2(List<PibCo2DadosDto> entrada,ToDoubleFunction<? super PibCo2DadosDto> mapper) {
+		//return entrada.stream().mapToDouble(mapper).max().getAsDouble();
+	//}
 }

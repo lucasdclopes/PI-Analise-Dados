@@ -39,9 +39,9 @@ public interface PibRepository extends JpaRepository<Pib, PaisAnoId> {
 	public final String calcMedias = """ 
 			SELECT new br.univesp.analisedados.dto.responses.PibCo2DadosDto
 			(p.id.year,
-			avg(p.totalGdp),min(p.totalGdp),max(p.totalGdp),
-			avg(p.totalGdp/t.populationEst),min(p.totalGdp/t.populationEst),max(p.totalGdp/t.populationEst),
-			avg(c.AnnualCo),min(c.AnnualCo),max(c.AnnualCo)
+			cast(avg(p.totalGdp) as BigDecimal ),min(p.totalGdp),max(p.totalGdp),
+			cast(avg(p.totalGdp/t.populationEst) as BigDecimal ),min(p.totalGdp/t.populationEst),max(p.totalGdp/t.populationEst),
+			cast(avg(c.AnnualCo) as BigDecimal ),min(c.AnnualCo),max(c.AnnualCo)
 			) 
 			FROM Pib p
 			LEFT JOIN TamanhoPopulacao t ON p.id = t.id

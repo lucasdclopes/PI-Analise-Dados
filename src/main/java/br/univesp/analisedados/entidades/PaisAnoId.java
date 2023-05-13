@@ -3,7 +3,7 @@ package br.univesp.analisedados.entidades;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class PaisAnoId implements Serializable {
