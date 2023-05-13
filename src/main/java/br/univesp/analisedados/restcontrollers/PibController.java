@@ -1,5 +1,6 @@
 package br.univesp.analisedados.restcontrollers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,14 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.univesp.analisedados.dto.queryparams.PaisAnoParam;
 import br.univesp.analisedados.dto.responses.ListaPibDto;
+import br.univesp.analisedados.dto.responses.PibCo2DadosDto;
 import br.univesp.analisedados.exceptions.EntidadeNaoEncontradaException;
 import br.univesp.analisedados.helpers.ControllerHelper;
+import br.univesp.analisedados.helpers.Normalizador;
 import br.univesp.analisedados.repositorios.PibRepository;
 
 @RestController
@@ -27,11 +30,13 @@ public class PibController {
 	@GetMapping
 	public ResponseEntity<List<ListaPibDto>> listar(
 			@PageableDefault(sort = {"id.idCountry","id.year"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao,
-			@RequestParam(required = false) List<Integer> idPais
+			PaisAnoParam params
 			) throws EntidadeNaoEncontradaException{
 			
 		//Page<ListaPibDto> pagina = pibDao.paginar(paginacao);
-		Page<ListaPibDto> pagina = idPais == null? pibDao.paginar(paginacao): pibDao.paginar(idPais,paginacao);
+		Page<ListaPibDto> pagina = params != null && params.idPais() != null ? 
+				pibDao.paginar(params.idPais(),params.minAno(),params.maxAno(),paginacao):
+					pibDao.paginar(params.minAno(),params.maxAno(),paginacao);
 		if (pagina.hasContent()) {
 			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
 		}
@@ -39,4 +44,36 @@ public class PibController {
 			throw new EntidadeNaoEncontradaException();
 			
 	}
+	
+	
+	@GetMapping(path = "/calc-co2")
+	public ResponseEntity<List<PibCo2DadosDto>> calcularCo(
+			PaisAnoParam params,
+			boolean normalizar
+			) throws EntidadeNaoEncontradaException{
+			
+		//Page<ListaPibDto> pagina = pibDao.paginar(paginacao);
+		List<PibCo2DadosDto> dados = params != null && params.idPais() != null ? 
+				pibDao.mediaCo(params.idPais(),params.minAno(),params.maxAno()):
+					pibDao.mediaCo(params.minAno(),params.maxAno());
+		
+		if (normalizar) {
+			Normalizador norm = new Normalizador();
+			List<PibCo2DadosDto> dadosNormalizados = new ArrayList<>();
+			dados.forEach(
+					d -> {dadosNormalizados.add(norm.normalizarPibCo2(d));}
+					);
+			dados = dadosNormalizados;
+		}
+		if (!dados.isEmpty()) {
+			
+			return ResponseEntity.ok().body(dados);
+		}
+		else
+			throw new EntidadeNaoEncontradaException();
+			
+	}
+	
+	
+	
 }
