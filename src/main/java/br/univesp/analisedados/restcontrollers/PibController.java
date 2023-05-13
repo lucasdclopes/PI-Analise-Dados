@@ -59,11 +59,7 @@ public class PibController {
 		
 		if (normalizar) {
 			Normalizador norm = new Normalizador();
-			List<PibCo2DadosDto> dadosNormalizados = new ArrayList<>();
-			dados.forEach(
-					d -> {dadosNormalizados.add(norm.normalizarPibCo2(d));}
-					);
-			dados = dadosNormalizados;
+			dados = norm.normalizarPibCo2(dados) ;
 		}
 		if (!dados.isEmpty()) {
 			
