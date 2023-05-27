@@ -47,8 +47,7 @@ public class PibController {
 	
 	@GetMapping(path = "/calc-co2")
 	public ResponseEntity<List<PibCo2DadosDto>> calcularCo(
-			PaisAnoParam params,
-			boolean normalizar
+			PaisAnoParam params
 			) throws EntidadeNaoEncontradaException{
 			
 		//Page<ListaPibDto> pagina = pibDao.paginar(paginacao);
@@ -56,10 +55,9 @@ public class PibController {
 				pibDao.mediaCo(params.idPais(),params.minAno(),params.maxAno()):
 					pibDao.mediaCo(params.minAno(),params.maxAno());
 		
-		if (normalizar) {
-			Normalizador norm = new Normalizador();
-			dados = norm.normalizarPibCo2(dados) ;
-		}
+
+		Normalizador norm = new Normalizador();
+		dados = norm.normalizarPibCo2(dados) ;
 		if (!dados.isEmpty()) {
 			
 			return ResponseEntity.ok().body(dados);

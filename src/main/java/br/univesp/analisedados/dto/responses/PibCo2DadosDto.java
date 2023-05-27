@@ -10,9 +10,9 @@ public record PibCo2DadosDto (Integer ano, TendenciaCentralDto pib, TendenciaCen
 			BigDecimal tendPibPerCap, BigDecimal pibPerCapMin,BigDecimal pibPerCapMax,
 			BigDecimal tendCo2, BigDecimal Co2Min,BigDecimal Co2Max){
 		this(ano, 
-				new TendenciaCentralDto(tendPib, pibMin,pibMax),
-				new TendenciaCentralDto(tendPibPerCap, pibPerCapMin,pibPerCapMax),
-				new TendenciaCentralDto(tendCo2, Co2Min,Co2Max) );
+				new TendenciaCentralDto(tendPib, pibMin,pibMax, BigDecimal.ZERO),
+				new TendenciaCentralDto(tendPibPerCap, pibPerCapMin,pibPerCapMax, BigDecimal.ZERO),
+				new TendenciaCentralDto(tendCo2, Co2Min,Co2Max, BigDecimal.ZERO) );
 	}
 	
 }

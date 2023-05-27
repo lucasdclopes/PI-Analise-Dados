@@ -30,12 +30,12 @@ public class Normalizador {
 			TendenciaCentralDto pib = e.pib();
 			TendenciaCentralDto pibPerCap = e.pibPerCap();
 			TendenciaCentralDto co2 = e.co2();
-			
+			//recria os objetos, mas colocando a informação de normalização
 			dadosNormalizados.add(new PibCo2DadosDto(
 					e.ano(), 
-					new TendenciaCentralDto(normalizar(pib.tendenciaCentral(),minPib,maxPib),pib.min(),pib.max()), 
-					new TendenciaCentralDto(normalizar(pibPerCap.tendenciaCentral(),minPibPerCap,maxPibPerCap),pibPerCap.min(),pibPerCap.max()), 
-					new TendenciaCentralDto(normalizar(co2.tendenciaCentral(),minCo2,maxCo2),co2.min(),co2.max())
+					new TendenciaCentralDto(pib.tendenciaCentral(),pib.min(),pib.max(),normalizar(pib.tendenciaCentral(),minPib,maxPib)), 
+					new TendenciaCentralDto(pibPerCap.tendenciaCentral(),pibPerCap.min(),pibPerCap.max(),normalizar(pibPerCap.tendenciaCentral(),minPibPerCap,maxPibPerCap)), 
+					new TendenciaCentralDto(co2.tendenciaCentral(),co2.min(),co2.max(),normalizar(co2.tendenciaCentral(),minCo2,maxCo2))
 					));
 		});
 	
