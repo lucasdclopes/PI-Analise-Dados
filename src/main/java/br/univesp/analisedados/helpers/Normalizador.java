@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 
 import br.univesp.analisedados.dto.TendenciaCentralDto;
@@ -44,10 +45,18 @@ public class Normalizador {
 	}
 	
 	public BigDecimal getMinPibCo2(List<PibCo2DadosDto> entrada,Function<? super PibCo2DadosDto, ? extends BigDecimal> mapper ) {
-		return entrada.stream().map(mapper).min(Comparator.naturalOrder()).get();
+		try {
+			return entrada.stream().map(mapper).min(Comparator.naturalOrder()).get();
+		} catch (NoSuchElementException e) {
+			return BigDecimal.ZERO;
+		}
 	}
 	public BigDecimal getMaxPibCo2(List<PibCo2DadosDto> entrada,Function<? super PibCo2DadosDto, ? extends BigDecimal> mapper ) {
-		return entrada.stream().map(mapper).max(Comparator.naturalOrder()).get();
+		try {
+			return entrada.stream().map(mapper).max(Comparator.naturalOrder()).get();
+		} catch (NoSuchElementException e) {
+			return BigDecimal.ZERO;
+		}
 	}
 	//public Double getMinPibCo2(List<PibCo2DadosDto> entrada,ToDoubleFunction<? super PibCo2DadosDto> mapper) {
 		//return entrada.stream().mapToDouble(mapper).min().getAsDouble();
