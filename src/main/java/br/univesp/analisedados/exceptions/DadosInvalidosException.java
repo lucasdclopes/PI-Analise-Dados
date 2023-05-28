@@ -1,6 +1,6 @@
 package br.univesp.analisedados.exceptions;
 
-public class DadosInvalidosException extends Exception {
+public class DadosInvalidosException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	

@@ -33,7 +33,7 @@ public class PibController {
 		PaisAnoParam params
 			) throws EntidadeNaoEncontradaException{
 			
-		//Page<ListaPibDto> pagina = pibDao.paginar(paginacao);
+		params.validarDados();
 		Page<ListaPibDto> pagina = params != null && params.idPais() != null ? 
 				pibDao.paginar(
 						params.idPais(),params.minAno(),params.maxAno(),paginacao
@@ -60,6 +60,7 @@ public class PibController {
 		Boolean isCo2PerCapita
 			) throws EntidadeNaoEncontradaException{
 			
+		params.validarDados();
 		//Page<ListaPibDto> pagina = pibDao.paginar(paginacao);
 		List<PibCo2DadosDto> dados = params != null && params.idPais() != null ? 
 				pibDao.mediaCo(params.idPais(),params.minAno(),params.maxAno(),isCo2PerCapita):

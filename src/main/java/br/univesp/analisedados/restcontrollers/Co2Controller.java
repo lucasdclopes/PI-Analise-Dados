@@ -30,6 +30,7 @@ public class Co2Controller {
 			PaisAnoParam params
 			) throws EntidadeNaoEncontradaException{
 			
+		params.validarDados();
 		//Page<ListaPibDto> pagina = pibDao.paginar(paginacao);
 		Page<ListaCo2Dto> pagina = params != null && params.idPais() != null ? 
 				co2Dao.paginar(params.idPais(),params.minAno(),params.maxAno(),paginacao):
