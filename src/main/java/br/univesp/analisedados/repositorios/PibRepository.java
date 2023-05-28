@@ -24,25 +24,45 @@ public interface PibRepository extends JpaRepository<Pib, PaisAnoId> {
 			 AND (p.id.idCountry in :idPaises)
 			""";
 	public final String listaPrincipal = """ 
-			SELECT new br.univesp.analisedados.dto.responses.ListaPibDto 
-			(p.id.year,p.id.idCountry,p.totalGdp,p.totalGdpMillion,p.gdpVariation,p.totalGdp / t.populationEst) 
+			SELECT 
+			 new br.univesp.analisedados.dto.responses.ListaPibDto 
+			(p.id.year,p.id.idCountry
+			,p.totalGdp,p.totalGdpMillion,p.gdpVariation
+			,p.totalGdp / t.populationEst) 
 			FROM Pib p
 			LEFT JOIN TamanhoPopulacao t ON p.id = t.id
 			WHERE 
 			""" + whereAno ;
 	@Query(listaPrincipal)
-	Page<ListaPibDto> paginar(Integer minAno, Integer maxAno,Pageable paginacao);
+	Page<ListaPibDto> paginar(
+			Integer minAno, Integer maxAno,Pageable paginacao
+			);
 	
 	@Query(listaPrincipal + wherePaises)
-	Page<ListaPibDto> paginar(List<Integer> idPaises, Integer minAno, Integer maxAno, Pageable paginacao);
+	Page<ListaPibDto> paginar(
+			List<Integer> idPaises, Integer minAno, 
+			Integer maxAno, Pageable paginacao);
 	
+	public final String escolhaCo2PerCapita = """
+			case when :isCo2PerCapita = true then c.AnnualCo/t.populationEst else c.AnnualCo end
+			""";
 	public final String calcMedias = """ 
-			SELECT new br.univesp.analisedados.dto.responses.PibCo2DadosDto
+			SELECT 
+			 new br.univesp.analisedados.dto.responses.PibCo2DadosDto
 			(p.id.year,
-			cast(avg(p.totalGdp) as BigDecimal ),min(p.totalGdp),max(p.totalGdp),
-			cast(avg(p.totalGdp/t.populationEst) as BigDecimal ),min(p.totalGdp/t.populationEst),max(p.totalGdp/t.populationEst),
-			cast(avg(c.AnnualCo) as BigDecimal ),min(c.AnnualCo),max(c.AnnualCo)
-			) 
+			cast(avg(p.totalGdp) as BigDecimal )
+				,min(p.totalGdp),max(p.totalGdp
+				),
+			cast(avg(p.totalGdp/t.populationEst) as BigDecimal )
+				,min(p.totalGdp/t.populationEst)
+				,max(p.totalGdp/t.populationEst
+				),
+			cast(avg( 
+			""" + escolhaCo2PerCapita +" ) as BigDecimal )" 
+			+" ,min(" + escolhaCo2PerCapita + ")"
+			+" ,max(" + escolhaCo2PerCapita
+			+" ) )"
+			+"""
 			FROM Pib p
 			LEFT JOIN TamanhoPopulacao t ON p.id = t.id
 			LEFT JOIN Co2 c ON p.id = c.id
@@ -50,10 +70,10 @@ public interface PibRepository extends JpaRepository<Pib, PaisAnoId> {
 			c.AnnualCo != 0 AND p.totalGdp != 0 AND 
 			""" + whereAno;
 	@Query(calcMedias + " group by p.id.year order by p.id.year")
-	List<PibCo2DadosDto> mediaCo(Integer minAno, Integer maxAno);
+	List<PibCo2DadosDto> mediaCo(Integer minAno, Integer maxAno, Boolean isCo2PerCapita);
 	
 	@Query(calcMedias + wherePaises + " group by p.id.year order by p.id.year")
-	List<PibCo2DadosDto> mediaCo(List<Integer> idPaises, Integer minAno, Integer maxAno);
-	
+	List<PibCo2DadosDto> mediaCo(
+			List<Integer> idPaises, Integer minAno, Integer maxAno, Boolean isCo2PerCapita);
 	
 }

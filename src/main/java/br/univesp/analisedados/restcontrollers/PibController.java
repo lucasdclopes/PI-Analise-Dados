@@ -28,16 +28,25 @@ public class PibController {
 	
 	@GetMapping
 	public ResponseEntity<List<ListaPibDto>> listar(
-			@PageableDefault(sort = {"id.idCountry","id.year"}, direction = Direction.ASC, page = 0, size = 10) Pageable paginacao,
-			PaisAnoParam params
+		@PageableDefault(sort = {"id.idCountry","id.year"}, 
+			direction = Direction.ASC, page = 0, size = 10) Pageable paginacao,
+		PaisAnoParam params
 			) throws EntidadeNaoEncontradaException{
 			
 		//Page<ListaPibDto> pagina = pibDao.paginar(paginacao);
 		Page<ListaPibDto> pagina = params != null && params.idPais() != null ? 
-				pibDao.paginar(params.idPais(),params.minAno(),params.maxAno(),paginacao):
+				pibDao.paginar(
+						params.idPais(),params.minAno(),params.maxAno(),paginacao
+						):
 					pibDao.paginar(params.minAno(),params.maxAno(),paginacao);
 		if (pagina.hasContent()) {
-			return ResponseEntity.ok().headers(ControllerHelper.adicionarHeaderPaginacao(pagina.getTotalPages(), pagina.hasNext())).body(pagina.getContent());
+			return ResponseEntity.ok()
+					.headers(
+						ControllerHelper
+						.adicionarHeaderPaginacao(
+								pagina.getTotalPages(), pagina.hasNext())
+						)
+					.body(pagina.getContent());
 		}
 		else
 			throw new EntidadeNaoEncontradaException();
@@ -47,13 +56,14 @@ public class PibController {
 	
 	@GetMapping(path = "/calc-co2")
 	public ResponseEntity<List<PibCo2DadosDto>> calcularCo(
-			PaisAnoParam params
+		PaisAnoParam params,
+		Boolean isCo2PerCapita
 			) throws EntidadeNaoEncontradaException{
 			
 		//Page<ListaPibDto> pagina = pibDao.paginar(paginacao);
 		List<PibCo2DadosDto> dados = params != null && params.idPais() != null ? 
-				pibDao.mediaCo(params.idPais(),params.minAno(),params.maxAno()):
-					pibDao.mediaCo(params.minAno(),params.maxAno());
+				pibDao.mediaCo(params.idPais(),params.minAno(),params.maxAno(),isCo2PerCapita):
+					pibDao.mediaCo(params.minAno(),params.maxAno(),isCo2PerCapita);
 		
 
 		Normalizador norm = new Normalizador();
@@ -66,7 +76,4 @@ public class PibController {
 			throw new EntidadeNaoEncontradaException();
 			
 	}
-	
-	
-	
 }
