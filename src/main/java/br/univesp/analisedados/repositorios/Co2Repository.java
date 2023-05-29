@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import br.univesp.analisedados.dto.responses.ListaCo2Dto;
 import br.univesp.analisedados.entidades.Co2;
 import br.univesp.analisedados.entidades.PaisAnoId;
+import br.univesp.analisedados.helpers.QueriesConstantes;
 
 public interface Co2Repository extends JpaRepository<Co2, PaisAnoId> {
 
@@ -18,7 +19,8 @@ public interface Co2Repository extends JpaRepository<Co2, PaisAnoId> {
 			SELECT 
 			new br.univesp.analisedados.dto.responses.ListaCo2Dto 
 			(c.id.year,c.id.idCountry,c.AnnualCo,
-			c.AnnualCo/t.populationEst
+			""" + QueriesConstantes.CALC_CO2_PER_CAPITA
+			+"""
 			) 
 			FROM Co2 c
 			LEFT JOIN TamanhoPopulacao t ON c.id = t.id

@@ -11,6 +11,7 @@ import br.univesp.analisedados.dto.responses.ListaPibDto;
 import br.univesp.analisedados.dto.responses.PibCo2DadosDto;
 import br.univesp.analisedados.entidades.PaisAnoId;
 import br.univesp.analisedados.entidades.Pib;
+import br.univesp.analisedados.helpers.QueriesConstantes;
 
 public interface PibRepository extends JpaRepository<Pib, PaisAnoId> {
 
@@ -28,7 +29,9 @@ public interface PibRepository extends JpaRepository<Pib, PaisAnoId> {
 			 new br.univesp.analisedados.dto.responses.ListaPibDto 
 			(p.id.year,p.id.idCountry
 			,p.totalGdp,p.totalGdpMillion,p.gdpVariation
-			,p.totalGdp / t.populationEst) 
+			,""" + QueriesConstantes.CALC_PIB_PER_CAPITA 
+			+"""
+			)
 			FROM Pib p
 			LEFT JOIN TamanhoPopulacao t ON p.id = t.id
 			WHERE 
@@ -45,7 +48,8 @@ public interface PibRepository extends JpaRepository<Pib, PaisAnoId> {
 	
 	public final String escolhaCo2PerCapita = """
 			case when :isCo2PerCapita = true 
-			then c.AnnualCo/t.populationEst 
+			then """ + QueriesConstantes.CALC_CO2_PER_CAPITA
+			+"""
 			else c.AnnualCo 
 			end
 			""";
@@ -55,10 +59,15 @@ public interface PibRepository extends JpaRepository<Pib, PaisAnoId> {
 			(p.id.year,
 			cast(avg(p.totalGdp) as BigDecimal )
 				,min(p.totalGdp),max(p.totalGdp
-				),
-			cast(avg(p.totalGdp/t.populationEst) as BigDecimal )
-				,min(p.totalGdp/t.populationEst)
-				,max(p.totalGdp/t.populationEst
+				),"""
+			+"cast(avg(" 
+				+ QueriesConstantes.CALC_PIB_PER_CAPITA 
+			+") as BigDecimal )"
+			+"	,min("
+				+ QueriesConstantes.CALC_PIB_PER_CAPITA + " )"
+			+"	,max("
+				+ QueriesConstantes.CALC_PIB_PER_CAPITA
+			+ """
 				),
 			cast(avg( 
 			""" + escolhaCo2PerCapita +" ) as BigDecimal )" 
