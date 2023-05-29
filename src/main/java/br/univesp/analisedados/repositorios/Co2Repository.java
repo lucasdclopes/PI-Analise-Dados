@@ -15,9 +15,13 @@ public interface Co2Repository extends JpaRepository<Co2, PaisAnoId> {
 
 	boolean existsById(PaisAnoId id);
 	public final String listaPrincipal = """ 
-			SELECT new br.univesp.analisedados.dto.responses.ListaCo2Dto 
-			(c.id.year,c.id.idCountry,c.AnnualCo) 
+			SELECT 
+			new br.univesp.analisedados.dto.responses.ListaCo2Dto 
+			(c.id.year,c.id.idCountry,c.AnnualCo,
+			c.AnnualCo/t.populationEst
+			) 
 			FROM Co2 c
+			LEFT JOIN TamanhoPopulacao t ON c.id = t.id
 			WHERE 
 			(:minAno is null or c.id.year >= :minAno) AND
 			(:maxAno is null or c.id.year <= :maxAno)
@@ -27,7 +31,9 @@ public interface Co2Repository extends JpaRepository<Co2, PaisAnoId> {
 	@Query(listaPrincipal + """
 			AND (c.id.idCountry in :idPaises)
 			""")
-	Page<ListaCo2Dto> paginar(List<Integer> idPaises, Integer minAno, Integer maxAno, Pageable paginacao);
+	Page<ListaCo2Dto> paginar(
+			List<Integer> idPaises, Integer minAno, Integer maxAno, Pageable paginacao
+			);
 
 	
 	

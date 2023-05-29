@@ -44,7 +44,10 @@ public interface PibRepository extends JpaRepository<Pib, PaisAnoId> {
 			Integer maxAno, Pageable paginacao);
 	
 	public final String escolhaCo2PerCapita = """
-			case when :isCo2PerCapita = true then c.AnnualCo/t.populationEst else c.AnnualCo end
+			case when :isCo2PerCapita = true 
+			then c.AnnualCo/t.populationEst 
+			else c.AnnualCo 
+			end
 			""";
 	public final String calcMedias = """ 
 			SELECT 
@@ -70,10 +73,13 @@ public interface PibRepository extends JpaRepository<Pib, PaisAnoId> {
 			c.AnnualCo != 0 AND p.totalGdp != 0 AND 
 			""" + whereAno;
 	@Query(calcMedias + " group by p.id.year order by p.id.year")
-	List<PibCo2DadosDto> mediaCo(Integer minAno, Integer maxAno, Boolean isCo2PerCapita);
+	List<PibCo2DadosDto> mediaCo(
+			Integer minAno, Integer maxAno, Boolean isCo2PerCapita
+			);
 	
 	@Query(calcMedias + wherePaises + " group by p.id.year order by p.id.year")
 	List<PibCo2DadosDto> mediaCo(
-			List<Integer> idPaises, Integer minAno, Integer maxAno, Boolean isCo2PerCapita);
+			List<Integer> idPaises, Integer minAno, Integer maxAno, Boolean isCo2PerCapita
+			);
 	
 }
