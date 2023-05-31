@@ -43,3 +43,17 @@ PIB/GDP: https://data.worldbank.org/indicator/NY.GDP.MKTP.CD
 Crescimento Populacional: https://population.un.org/wpp/
 
 CO2: https://ourworldindata.org/grapher/annual-co-emissions-by-region
+
+## Créditos
+
+Este é um projeto feito em grupo, foi necessário elaborar o tema, pesquisar os datasets, realizar reuniões, tratar os dados, montar a estrutura do banco de dados, desenhar a UX e desenvolver o front e ackend. Além da extensa documentação escrita, que não está inclusa neste repositório.
+
+Integrantes:
+
+**Bruno de Freitas**
+
+**Lucas de Carvalho Lopes**
+
+**Lucas Goss Dias**
+
+
