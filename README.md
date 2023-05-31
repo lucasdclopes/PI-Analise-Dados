@@ -22,7 +22,7 @@ Os arquivos para criar o banco de dados estão no root do repositório.
 
 `create_schema.sql` cria a estrutura(schema) do banco de dados: campos, tabelas, chaves e índices 
 
-`insert_datasql.sql` com a estrutura criada, este script insere os dados nas tabelas 
+`insert_datasql.sql` com a estrutura criada, este script insere os dados já tratados nas tabelas 
 
 Note que o banco de dados não é criado automáticamente. É necessário utilizar os scripts acima. Para gerenciar o SQL Server, recomanda-se utilizar o SQL Server Managment Studio: https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16
 
@@ -33,3 +33,12 @@ Os dados de acesso ao banco de dados estão no arquivo `/src/main/resources/appl
 ## Executando
 
 Basta executar a classe `br.univesp.analisedados.PiAnaliseDadosApplication` como Java Application. Por padrão, a porta utilizada será a 80.
+
+## Fontes
+
+Os datasets originais, de onde os dados foram organizados, podem ser encontrados em:
+PIB/GDP: https://data.worldbank.org/indicator/NY.GDP.MKTP.CD
+
+Crescimento Populacional: https://population.un.org/wpp/
+
+CO2: https://ourworldindata.org/grapher/annual-co-emissions-by-region
