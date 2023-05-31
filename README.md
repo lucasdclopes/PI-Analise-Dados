@@ -6,7 +6,7 @@ Este projeto é do PI (Projeto Integrador ) do curso de Engenheria de Computaç�
 
 Este repositório contém o backend. O frontend pode ser encontrado no outro repositório: https://github.com/lucasdclopes/PI-Analise-Dados-Frontend
 
-O backend é feito em Java e utiliza o Spring Boot 3.0.6 e usa o servidor incluído, o TomCat
+O backend é feito em Java e utiliza o Spring Boot 3.0.6 e usa o servidor incluído, o Tomcat
 
 ## Requisitos
 
@@ -34,4 +34,4 @@ Os dados de acesso ao banco de dados estão no arquivo `/src/main/resources/appl
 
 ## Executando
 
-Basta executar a classe `br.univesp.analisedados.PiAnaliseDadosApplication` como Java Application.
+Basta executar a classe `br.univesp.analisedados.PiAnaliseDadosApplication` como Java Application. Por padrão, a porta utilizada será a 80.
