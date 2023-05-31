@@ -2,8 +2,9 @@
 
 ## Sobre
 
-Este projeto é do PI (Projeto Integrador ) do curso de Engenheria de Computação da Univesp. O principal tema é análise de dados utilizando datasets públicos. Este repositório contém o backend. O frontend pode ser encontrado no outro repositório: https://github.com/lucasdclopes/PI-Analise-Dados-Frontend
-Este backend é feito em Java e utiliza o Spring Boot 3.0.6 e usa o servidor incluído, o TomCat
+Este projeto é do PI (Projeto Integrador ) do curso de Engenheria de Computação da Univesp. O principal tema é análise de dados utilizando datasets públicos. 
+Este repositório contém o backend. O frontend pode ser encontrado no outro repositório: https://github.com/lucasdclopes/PI-Analise-Dados-Frontend
+O backend é feito em Java e utiliza o Spring Boot 3.0.6 e usa o servidor incluído, o TomCat
 
 ## Requisitos
 
