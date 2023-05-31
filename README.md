@@ -16,6 +16,8 @@ O banco de dados utilizado é o Microsoft SQL Server 2022 (16.0.1050.5).
 
 A IDE utilizada é o Eclipse, mas pode-se trabalhar com a IDE de sua preferência
 
+## Banco de dados
+
 ## Acesso ao banco de dados
 
 Os dados de acesso ao banco de dados estão no arquivo `/src/main/resources/application.properties`
