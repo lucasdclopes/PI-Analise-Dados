@@ -46,7 +46,7 @@ CO2: https://ourworldindata.org/grapher/annual-co-emissions-by-region
 
 ## Créditos
 
-Este é um projeto feito em grupo, foi necessário elaborar o tema, pesquisar os datasets, realizar reuniões, tratar os dados, montar a estrutura do banco de dados, desenhar a UX e desenvolver o front e ackend. Além da extensa documentação escrita, que não está inclusa neste repositório.
+Este é um projeto feito em grupo, foi necessário elaborar o tema, pesquisar os datasets, realizar reuniões, tratar os dados, montar a estrutura do banco de dados, desenhar a UX, desenvolver o front e backend e realizar testes. Além da extensa e trabalhosa documentação escrita, que não está inclusa neste repositório.
 
 Integrantes:
 
